@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum StageStatus {
+  ACTIVE
+  COMPLETE
+  PAUSED
+}
+
+model Protocol {
+  id          String      @id @default(cuid())
+  name        String
+  description String
+  goal        String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  stages      Stage[]
+  labResults  LabResult[]
+  notes       Note[]
+}
+
+model Stage {
+  id          String      @id @default(cuid())
+  protocolId  String
+  name        String
+  description String?
+  order       Int
+  startDate   DateTime?
+  status      StageStatus @default(ACTIVE)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  protocol    Protocol    @relation(fields: [protocolId], references: [id], onDelete: Cascade)
+  supplements Supplement[]
+  logEntries  LogEntry[]
+}
+
+model Supplement {
+  id        String   @id @default(cuid())
+  stageId   String
+  name      String
+  dosage    String
+  frequency String
+  timing    String?
+  notes     String?
+  createdAt DateTime @default(now())
+  stage     Stage    @relation(fields: [stageId], references: [id], onDelete: Cascade)
+}
+
+model LogEntry {
+  id          String   @id @default(cuid())
+  stageId     String
+  date        DateTime
+  energyLevel Int?
+  symptoms    String?
+  notes       String?
+  createdAt   DateTime @default(now())
+  stage       Stage    @relation(fields: [stageId], references: [id], onDelete: Cascade)
+}
+
+model LabResult {
+  id           String   @id @default(cuid())
+  protocolId   String
+  testName     String
+  value        Float
+  unit         String
+  referenceMin Float?
+  referenceMax Float?
+  date         DateTime
+  flagged      Boolean  @default(false)
+  notes        String?
+  createdAt    DateTime @default(now())
+  protocol     Protocol @relation(fields: [protocolId], references: [id], onDelete: Cascade)
+}
+
+model Note {
+  id         String    @id @default(cuid())
+  protocolId String?
+  title      String?
+  content    String
+  date       DateTime
+  createdAt  DateTime  @default(now())
+  protocol   Protocol? @relation(fields: [protocolId], references: [id], onDelete: SetNull)
+}

@@ -6,7 +6,7 @@ import type {
   LabResult,
   Note,
   StageStatus,
-} from '@/app/generated/prisma'
+} from '@/app/generated/prisma/client'
 
 // Re-export Prisma types for convenience
 export type { Protocol, Stage, Supplement, LogEntry, LabResult, Note, StageStatus }

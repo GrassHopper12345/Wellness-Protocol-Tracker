@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { GeistSans } from 'geist/font/sans'
 import './globals.css'
 import { Providers } from './providers'
-
-const inter = Inter({ subsets: ['latin'] })
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: 'Protocol Tracker',
@@ -16,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={cn("font-sans", GeistSans.variable)}>
+      <body className={GeistSans.className}>
         <Providers>{children}</Providers>
       </body>
     </html>

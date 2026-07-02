@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(_request: NextRequest): Promise<NextResponse> {
+export async function GET(): Promise<NextResponse> {
   try {
     // TODO: return await prisma.logEntry.findMany({ orderBy: { date: 'desc' } })
     return NextResponse.json({ data: [] }, { status: 200 })

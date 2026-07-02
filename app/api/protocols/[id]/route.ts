@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 type RouteContext = { params: { id: string } }
 
 export async function GET(
-  _request: NextRequest,
+  _: NextRequest,
   { params }: RouteContext
 ): Promise<NextResponse> {
   try {
@@ -31,7 +31,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  _request: NextRequest,
+  _: NextRequest,
   { params }: RouteContext
 ): Promise<NextResponse> {
   try {
